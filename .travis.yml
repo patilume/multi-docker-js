@@ -15,8 +15,8 @@ after_sucess:
   - docker build -t patilume/multi-server ./server
   - docker build -t patilume/multi-worker ./worker
   # log into docker CLI
-  #- echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_ID" --password-stdin 
-  - docker login --username "$DOCKER_ID" --password "$DOCKER_PASSWORD" 
+  - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_ID" --password-stdin 
+  #- docker login --username "$DOCKER_ID" --password "$DOCKER_PASSWORD" 
   
   #take images created in above step and push onto dockerhub 
   - docker push patilume/multi-client
