@@ -1,0 +1,24 @@
+sudo: requiered
+services:
+  - docker
+  
+before_install:
+  - docker build -t patilume/react-test -f ./client/Dockerfile.dev ./client
+  
+script:
+  - docker run patilume/react-test npm test -- --coverage
+  
+after_sucess:
+  - docker build -t patilume/multi-client ./client
+  - docker build -t patilume/multi-nginx ./nginx
+  - docker build -t patilume/multi-server ./server
+  - docker build -t patilume/multi-worker ./worker
+  # log into docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin 
+  
+  #take images created in above step and push onto dockerhub 
+  - docker push patilume/multi-client
+  - docker push patilume/multi-nginx
+  - docker push patilume/multi-server
+  - docker push patilume/multi-worker
+  
